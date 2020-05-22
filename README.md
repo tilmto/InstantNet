@@ -17,7 +17,7 @@ Given the target dataset and hardware platform, we search for the optimal networ
 ### Overiew
 Specify the search settings in ***config_search.py*** and search the optimal network through ***train_search.py***. Then specify training settings in ***config_train.py*** and train the searched arch from scratch through ***train.py*** (The best searched arch will be saved at 'ckpt/search/arch.pt', which is the default path for ***train.py*** to read.)
 
-We search on ImageNet-100 (no distributed training support) and train the derived arch on ImageNet-1000 (support distribute training).
+We search on ImageNet-100 (no distributed training support) and train the derived arch on ImageNet-1000 (support distributed training).
 
 ### Step by step
 1. Specify the search setting in ***config_search.py*** (line 31~34):
