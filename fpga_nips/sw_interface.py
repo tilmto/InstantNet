@@ -370,54 +370,54 @@ def build_counter(tiling1):
 
 
 def get_hw_efficiency(input_dnn, name, group=1):
-    parser = argparse.ArgumentParser(description="Differentiable Hardware Search")
-    parser.add_argument('--epoch', type=int, default=500,
-                        help='num of epochs')
-    parser.add_argument('--trial', type=int, default=3,
-                        help='num of trials')
-    parser.add_argument('--momentum', type=float, default=0.9,
-                        help='momentum of optimizer')
-    parser.add_argument('--lr', type=float, default=1e-11,
-                        help='initial learning rate')
-    parser.add_argument('--temp', type=float, default=1,
-                        help='temperature in gumble softmax')
-    parser.add_argument('--adjust_temp', action='store_true', default=False,
-                        help='whether to adjust the temperature')
-    parser.add_argument('--temp_decay', type=float, default=0.9,
-                        help='decay of temperature')
-    parser.add_argument('--temp_freq', type=float, default=1000,
-                        help='frequency of per temperature decay')
-    parser.add_argument('--random_seed', type=int, default=10,
-                        help='random seed for np.random')
-    parser.add_argument('--kl_loss', type=float, default=0,
-                        help='whether to push the choices to uniform distribution with KL loss')
-    parser.add_argument('--entropy_loss', type=float, default=0,
-                        help='whether to push the choices to uniform distribution with entropy loss')
-    parser.add_argument('--limit', type=float, default=None,
-                        help='metric limit')
-    parser.add_argument('--pruning_thres', type=float, default=None,
-                        help='pruning threshold')
-    parser.add_argument('--pruning_ratio', type=float, default=0.5,
-                        help='pruning ratio')
-    parser.add_argument('--pruning_epoch', type=int, default=None,
-                        help='pruning epoch')
-    parser.add_argument('--fix_pe_array', action='store_true', default=False,
-                        help='whether to fix the pe array')
-    parser.add_argument('--fix_pe_array_dim', action='store_true', default=False,
-                        help='whether to fix the pe array dim choice')
-    parser.add_argument('--fix_loop_order_dram', action='store_true', default=False,
-                        help='whether to fix the loop order of dram')
-    parser.add_argument('--fix_loop_order_gb', action='store_true', default=False,
-                        help='whether to fix the loop order of global buffer')
-    parser.add_argument('--fix_tiling_factor', action='store_true', default=False,
-                        help='whether fix the tiling factors')
-    parser.add_argument('--fix_tiling_order', action='store_true', default=False,
-                        help='whether fix the tiling orders')
-    parser.add_argument('--final_infer', action='store_true', default=False,
-                        help='whether conduct final inference')
-    parser.add_argument('--save_path', type=str, default='trial_info.json',
-                        help='save path of trial info')
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description="Differentiable Hardware Search")
+    # parser.add_argument('--epoch', type=int, default=500,
+    #                     help='num of epochs')
+    # parser.add_argument('--trial', type=int, default=3,
+    #                     help='num of trials')
+    # parser.add_argument('--momentum', type=float, default=0.9,
+    #                     help='momentum of optimizer')
+    # parser.add_argument('--lr', type=float, default=1e-11,
+    #                     help='initial learning rate')
+    # parser.add_argument('--temp', type=float, default=1,
+    #                     help='temperature in gumble softmax')
+    # parser.add_argument('--adjust_temp', action='store_true', default=False,
+    #                     help='whether to adjust the temperature')
+    # parser.add_argument('--temp_decay', type=float, default=0.9,
+    #                     help='decay of temperature')
+    # parser.add_argument('--temp_freq', type=float, default=1000,
+    #                     help='frequency of per temperature decay')
+    # parser.add_argument('--random_seed', type=int, default=10,
+    #                     help='random seed for np.random')
+    # parser.add_argument('--kl_loss', type=float, default=0,
+    #                     help='whether to push the choices to uniform distribution with KL loss')
+    # parser.add_argument('--entropy_loss', type=float, default=0,
+    #                     help='whether to push the choices to uniform distribution with entropy loss')
+    # parser.add_argument('--limit', type=float, default=None,
+    #                     help='metric limit')
+    # parser.add_argument('--pruning_thres', type=float, default=None,
+    #                     help='pruning threshold')
+    # parser.add_argument('--pruning_ratio', type=float, default=0.5,
+    #                     help='pruning ratio')
+    # parser.add_argument('--pruning_epoch', type=int, default=None,
+    #                     help='pruning epoch')
+    # parser.add_argument('--fix_pe_array', action='store_true', default=False,
+    #                     help='whether to fix the pe array')
+    # parser.add_argument('--fix_pe_array_dim', action='store_true', default=False,
+    #                     help='whether to fix the pe array dim choice')
+    # parser.add_argument('--fix_loop_order_dram', action='store_true', default=False,
+    #                     help='whether to fix the loop order of dram')
+    # parser.add_argument('--fix_loop_order_gb', action='store_true', default=False,
+    #                     help='whether to fix the loop order of global buffer')
+    # parser.add_argument('--fix_tiling_factor', action='store_true', default=False,
+    #                     help='whether fix the tiling factors')
+    # parser.add_argument('--fix_tiling_order', action='store_true', default=False,
+    #                     help='whether fix the tiling orders')
+    # parser.add_argument('--final_infer', action='store_true', default=False,
+    #                     help='whether conduct final inference')
+    # parser.add_argument('--save_path', type=str, default='trial_info.json',
+    #                     help='save path of trial info')
+    # args = parser.parse_args()
 
 
     ############################

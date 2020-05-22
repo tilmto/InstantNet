@@ -60,7 +60,8 @@ class Architect(object):
 
 
     def _backward_step_edp(self, input_valid, target_valid, temp=1):
-        loss = self.model.module._loss(input_valid, target_valid, temp)
+        logit = self.model(input_valid, temp)
+        loss = self.model.module._criterion(logit, target_valid)
 
         # flops = self.model.module.forward_flops((16, 224, 224))
         edp = self.model.module.forward_edp((3, 224, 224), temp)
@@ -73,7 +74,8 @@ class Architect(object):
 
 
     def _backward_step_energy(self, input_valid, target_valid, temp=1):
-        loss = self.model.module._loss(input_valid, target_valid, temp)
+        logit = self.model(input_valid, temp)
+        loss = self.model.module._criterion(logit, target_valid)
 
         # flops = self.model.module.forward_flops((16, 224, 224))
         energy = self.model.module.forward_energy((3, 224, 224), temp)
@@ -86,7 +88,8 @@ class Architect(object):
 
 
     def _backward_step_latency(self, input_valid, target_valid, temp=1):
-        loss = self.model.module._loss(input_valid, target_valid, temp)
+        logit = self.model(input_valid, temp)
+        loss = self.model.module._criterion(logit, target_valid)
 
         # flops = self.model.module.forward_flops((16, 224, 224))
         latency = self.model.module.forward_latency((3, 224, 224), temp)
@@ -100,7 +103,8 @@ class Architect(object):
 
 
     def _backward_step_flops(self, input_valid, target_valid, temp=1):
-        loss = self.model.module._loss(input_valid, target_valid, temp)
+        logit = self.model(input_valid, temp)
+        loss = self.model.module._criterion(logit, target_valid)
 
         # flops = self.model.module.forward_flops((16, 224, 224))
         flops = self.model.module.forward_flops((3, 224, 224), temp)

@@ -38,8 +38,31 @@ from model_infer import FBNet_Infer
 from lr import LambdaLR
 from perturb import Random_alpha
 
+import argparse
+
+
+parser = argparse.ArgumentParser(description='Search on ImageNet-100')
+parser.add_argument('--dataset_path', type=str, default=None,
+                    help='path to ImageNet-100')
+parser.add_argument('-b', '--batch_size', type=int, default=None,
+                    help='batch size')
+parser.add_argument('--num_workers', type=int, default=None,
+                    help='number of workers')
+parser.add_argument('--flops_weight', type=float, default=None,
+                    help='weight of FLOPs loss')
+args = parser.parse_args()
+
 
 def main(pretrain=True):
+    if args.dataset_path is not None:
+        config.dataset_path = args.dataset_path
+    if args.batch_size is not None:
+        config.batch_size = args.batch_size
+    if args.num_workers is not None:
+        config.num_workers = args.num_workers
+    if args.flops_weight is not None:
+        config.flops_weight = args.flops_weight
+
     config.save = 'ckpt/{}'.format(config.save)
     logger = SummaryWriter(config.save)
 
@@ -351,7 +374,8 @@ def train(train_loader_model, train_loader_arch, model, architect, optimizer, lr
         if epsilon_alpha and update_arch:
             Random_alpha(model, epsilon_alpha)
 
-        loss = model.module._loss(input, target, temp=temp)
+        logit = model(input, temp)
+        loss = model.module._criterion(logit, target)
 
         # time_fw = time.time() - end
         # end = time.time()

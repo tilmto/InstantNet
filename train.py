@@ -42,28 +42,41 @@ from model_infer import FBNet_Infer
 from lr import LambdaLR
 from thop import profile
 
+import argparse
+
+
+parser = argparse.ArgumentParser(description='Search on ImageNet-100')
+parser.add_argument('--dataset_path', type=str, default=None,
+                    help='path to ImageNet-100')
+parser.add_argument('-b', '--batch_size', type=int, default=None,
+                    help='batch size')
+parser.add_argument('--num_workers', type=int, default=None,
+                    help='number of workers per gpu')
+parser.add_argument('--world_size', type=int, default=None,
+                    help='number of nodes')
+parser.add_argument('--rank', type=int, default=None,
+                    help='node rank')
+parser.add_argument('--dist_url', type=str, default=None,
+                    help='url used to set up distributed training')
+args = parser.parse_args()
+
+
 best_acc = 0
 best_epoch = 0
 
 def main():
-    # config = parser.parse_config()
-
-    # if config.seed is not None:
-    #     random.seed(config.seed)
-    #     torch.manual_seed(config.seed)
-    #     cudnn.deterministic = True
-    #     warnings.warn('You have chosen to seed training. '
-    #                   'This will turn on the CUDNN deterministic setting, '
-    #                   'which can slow down your training considerably! '
-    #                   'You may see unexpected behavior when restarting '
-    #                   'from checkpoints.')
-
-    # if config.gpu is not None:
-    #     warnings.warn('You have chosen a specific GPU. This will completely '
-    #                   'disable data parallelism.')
-
-    # if config.dist_url == "env://" and config.world_size == -1:
-    #     config.world_size = int(os.environ["WORLD_SIZE"])
+    if args.dataset_path is not None:
+        config.dataset_path = args.dataset_path
+    if args.batch_size is not None:
+        config.batch_size = args.batch_size
+    if args.num_workers is not None:
+        config.num_workers = args.num_workers
+    if args.world_size is not None:
+        config.world_size = args.world_size
+    if args.world_size is not None:
+        config.rank = args.rank
+    if args.dist_url is not None:
+        config.dist_url = args.dist_url
 
     config.distributed = config.world_size > 1 or config.multiprocessing_distributed
 
@@ -319,7 +332,9 @@ def train(train_loader, model, optimizer, lr_policy, logger, epoch, config):
         input = input.cuda(non_blocking=True)
         target = target.cuda(non_blocking=True)
 
-        loss = model.module._loss(input, target)
+        logit = model(input)
+        loss = model.module._criterion(logit, target)
+
         loss.backward()
 
         nn.utils.clip_grad_norm_(model.parameters(), config.grad_clip)

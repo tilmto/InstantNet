@@ -629,30 +629,30 @@ def resource_allocator_depth_std(input_dnn,tmp_hw_spec):
 #generate the design space of all possible tiling factors
 #the space is partitioned according to alloc_slots based on the rf_noc_template choice (PE array)
 
-parser = argparse.ArgumentParser(description="Random Hardware Search")
-parser.add_argument('--epoch', type=int, default=100,
-                    help='num of epochs')
-parser.add_argument('--trial', type=int, default=1,
-                    help='num of trials')
-parser.add_argument('--limit', type=float, default=None,
-                    help='metric limit')
-parser.add_argument('--random_seed', type=int, default=10,
-                    help='random seed for np.random')
-parser.add_argument('--fix_pe_array', action='store_true', default=False,
-                    help='whether to fix the pe array')
-parser.add_argument('--fix_pe_array_dim', action='store_true', default=False,
-                    help='whether to fix the pe array dim choice')
-parser.add_argument('--fix_loop_order_dram', action='store_true', default=False,
-                    help='whether to fix the loop order of dram')
-parser.add_argument('--fix_loop_order_gb', action='store_true', default=False,
-                    help='whether to fix the loop order of global buffer')
-parser.add_argument('--fix_tiling_factor', action='store_true', default=False,
-                    help='whether fix the tiling factors')
-parser.add_argument('--fix_tiling_order', action='store_true', default=False,
-                    help='whether fix the tiling orders')
-parser.add_argument('--save_path', type=str, default='random_trial_info.json',
-                    help='save path of trial info')
-args = parser.parse_args()
+# parser = argparse.ArgumentParser(description="Random Hardware Search")
+# parser.add_argument('--epoch', type=int, default=100,
+#                     help='num of epochs')
+# parser.add_argument('--trial', type=int, default=1,
+#                     help='num of trials')
+# parser.add_argument('--limit', type=float, default=None,
+#                     help='metric limit')
+# parser.add_argument('--random_seed', type=int, default=10,
+#                     help='random seed for np.random')
+# parser.add_argument('--fix_pe_array', action='store_true', default=False,
+#                     help='whether to fix the pe array')
+# parser.add_argument('--fix_pe_array_dim', action='store_true', default=False,
+#                     help='whether to fix the pe array dim choice')
+# parser.add_argument('--fix_loop_order_dram', action='store_true', default=False,
+#                     help='whether to fix the loop order of dram')
+# parser.add_argument('--fix_loop_order_gb', action='store_true', default=False,
+#                     help='whether to fix the loop order of global buffer')
+# parser.add_argument('--fix_tiling_factor', action='store_true', default=False,
+#                     help='whether fix the tiling factors')
+# parser.add_argument('--fix_tiling_order', action='store_true', default=False,
+#                     help='whether fix the tiling orders')
+# parser.add_argument('--save_path', type=str, default='random_trial_info.json',
+#                     help='save path of trial info')
+# args = parser.parse_args()
 
 
 tmp_hw_spec={\

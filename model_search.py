@@ -171,7 +171,7 @@ class FBNet(nn.Module):
         self._arch_params = self._build_arch_parameters()
         self._reset_arch_parameters()
 
-        self._criterion = nn.CrossEntropyLoss().cuda()
+        self._criterion = nn.CrossEntropyLoss()
 
         self.sample_func = config.sample_func
 
