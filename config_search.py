@@ -28,7 +28,7 @@ C.repo_name = 'DNACoS'
 
 
 """Data Dir and Weight Dir"""
-C.dataset_path = "/data1/ILSVRC/Data/CLS-LOC"
+C.dataset_path = "/data1/ILSVRC/Data/CLS-LOC" # Specify path to ImageNet-100
 C.batch_size = 192
 C.num_workers = 16
 C.flops_weight = 1e-9
