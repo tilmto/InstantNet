@@ -19,9 +19,39 @@ We search on ImageNet-100 (no distributed training support) and train the derive
 ### Step by step
 1. Specify the search setting in *config_search.py* (line 31~34):
 ```
-C.dataset_path = "path to ImageNet-100"
+C.dataset_path = "path-to-ImageNet-100"
 C.batch_size = 192
 C.num_workers = 16
 C.flops_weight = 1e-9
 ```
-`C.dataset_path`
+`C.dataset_path` is the dataset path to ImageNet-100. `C.num_workers` is the workers number for dataloader (config based on your server). `C.flops_weight` is the weight of FLOPs (Floating-point Operations) loss in the total loss which is a hyper-param to control the trade-off between accuracy and FLOPs. No need to change other settings.
+
+2. Run *train_search.py*: 
+```
+python train_search.py
+```
+
+3. Specify the training setting (distributed) in *config_train.py* (line 32~42):
+```
+C.dataset_path = "path-to-ImageNet-1000" # Specify path to ImageNet-1000
+
+C.world_size = 1  # num of nodes
+C.multiprocessing_distributed = True
+C.rank = 0  # node rank
+C.dist_backend = 'nccl'
+C.dist_url = 'tcp://IP-of-Node:Free-Port' # url used to set up distributed training
+
+C.num_workers = 4  # workers per gpu
+C.batch_size = 256
+```
+`C.dataset_path` is the dataset path to ImageNet-1000. `C.rank` is the rank of the current node. `C.dist_url` is the IP of the first node. Note that `C.num_workers` is the workers assigned to each process, i.e., each gpu. No need to change other settings.
+
+4. Run *train.py* on each of your nodes: 
+```
+python train.py
+```
+
+5. Get the searched arch ('ckpt/search/arch.pt'), the search logs 'ckpt/search/logs.txt' and the training logs 'ckpt/finetune/logs.txt'.
+
+## First Round Exp 2020/05/21
+Search under 3 settings of `C.flops_weight`: 1e-7, 1e-9, 1e-11 in *config_search.py*.
