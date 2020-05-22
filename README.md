@@ -6,8 +6,11 @@ Given the target dataset and hardware platform, we search for the optimal networ
 
 ## Core Files
 *train_search.py / train.py*: main function for search / train the searched arch from scratch
+
 *config_search.py / config_train.py*: configurations for search / train the searched arch from scratch
+
 *model_search.py / model_infer.py*: supernet definition / searched arch definition
+
 *other files* : utils for operation definition, learning rate schedule, datasets, etc. 
 
 ## Usage
