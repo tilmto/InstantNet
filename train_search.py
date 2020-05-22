@@ -50,6 +50,8 @@ parser.add_argument('--num_workers', type=int, default=None,
                     help='number of workers')
 parser.add_argument('--flops_weight', type=float, default=None,
                     help='weight of FLOPs loss')
+parser.add_argument('--gpu', nargs='+', type=int, default=None,
+                    help='specify gpus')
 args = parser.parse_args()
 
 
@@ -88,7 +90,11 @@ def main(pretrain=True):
 
     # Model #######################################
     model = Network(config=config)
-    model = torch.nn.DataParallel(model).cuda()
+
+    if args.gpu is not None:
+        model = torch.nn.DataParallel(model, device_ids=args.gpu).cuda()
+    else:
+        model = torch.nn.DataParallel(model).cuda()
 
     if type(pretrain) == str:
         partial = torch.load(pretrain + "/weights.pt")
