@@ -15,7 +15,7 @@ Given the target dataset and hardware platform, we search for the optimal networ
 
 ## Usage
 ### Overiew
-Specify the search settings in ***config_search.py*** and search the optimal network through ***train_search.py***. Then specify training settings in ***config_train.py*** and train the searched arch from scratch through ***train.py*** (The best searched arch will be saved at 'ckpt/search/arch.pt', which is the default path for ***train.py*** to read.)
+Specify the search settings in ***config_search.py*** and search the optimal network through ***train_search.py***. Then specify training settings in ***config_train.py*** and train the searched arch from scratch through ***train.py*** (The best searched arch will be saved at ***ckpt/search/arch.pt***, which is the default path for ***train.py*** to read.)
 
 We search on ImageNet-100 (no distributed training support) and train the derived arch on ImageNet-1000 (support distributed training).
 
@@ -54,7 +54,7 @@ C.batch_size = 256
 python train.py
 ```
 
-5. Get the searched arch ('ckpt/search/arch.pt'), the search logs 'ckpt/search/logs.txt' and the training logs 'ckpt/finetune/logs.txt'.
+5. Get the searched arch ***ckpt/search/arch.pt***, the search logs ***ckpt/search/logs.txt*** and the training logs ***ckpt/finetune/logs.txt***.
 
 ## First Round Exp 2020/05/21
 Search under 3 settings of `C.flops_weight`: 1e-7, 1e-9, 1e-11 in ***config_search.py***.
