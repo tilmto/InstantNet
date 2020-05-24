@@ -5,7 +5,7 @@ Given the target dataset and hardware platform, we search for the optimal networ
 (Current version doesn't include quantization, just full precision baselines)
 
 ## Different versions of Code
-***InstantNet_base***: full precision baseline
+***InstantNet_base***: full precision baseline (which is the last version ***InstantNet***)
 
 ***InstantNet***: search and retrain with multiple quantization bit-widths
 
@@ -62,10 +62,10 @@ python train.py
 5. Get the searched arch ***ckpt/search/arch.pt***, the search logs ***ckpt/search/logs.txt*** and the training logs ***ckpt/finetune/logs.txt***.
 
 ## First Round Exp 2020/05/21
-Use ***InstantNet_base*** Search under 3 settings of `C.flops_weight`: 1e-7, 1e-9, 1e-11 in ***config_search.py***.
+Use ***InstantNet_base***: Search under 3 settings of `C.flops_weight`: 1e-7, 1e-9, 1e-11 in ***config_search.py***.
 
 ## Second Round Exp 2020/05/24
-1. Use ***InstantNet_base*** Search under 1 settings of `C.flops_weight`: 1e-15 in ***config_search.py***.
+1. Use ***InstantNet_base***: Search under 1 settings of `C.flops_weight`: 1e-15 in ***config_search.py***.
 
-2. Use ***InstantNet*** Search under 2 settings of `C.flops_weight`: 0, 1e-15 in ***config_search.py***. (The search speed may be much slower than 1. If it's unacceptable searching speed, I will upgrade the searching process to support distributed training.)
+2. Use ***InstantNet*** (with quantization): Search under 2 settings of `C.flops_weight`: 0, 1e-15 in ***config_search.py***. (The search speed may be much slower than 1. If it's unacceptable searching speed, I will upgrade the searching process to support distributed training.)
 
