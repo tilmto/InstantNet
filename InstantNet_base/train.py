@@ -302,6 +302,8 @@ def main_worker(gpu, ngpus_per_node, config):
             with torch.no_grad():
                 acc = infer(epoch, model, test_loader, logger)
 
+            acc = reduce_tensor(acc, config.world_size)
+
             if acc > best_acc:
                 best_acc = acc
                 best_epoch = epoch
@@ -365,6 +367,12 @@ def infer(epoch, model, test_loader, logger):
     acc = sum(prec1_list)/len(prec1_list)
 
     return acc
+
+
+def reduce_tensor(rt, n):
+    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
+    rt /= n
+    return rt
 
 
 def accuracy(output, target, topk=(1,)):

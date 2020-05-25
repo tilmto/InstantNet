@@ -138,11 +138,11 @@ def main_worker(gpu, ngpus_per_node, config):
         logger = None
 
 
-    # state = torch.load(os.path.join(config.load_path, 'arch.pt'))
-    # alpha = state['alpha']
+    state = torch.load(os.path.join(config.load_path, 'arch.pt'))
+    alpha = state['alpha']
 
-    alpha = torch.zeros(sum(config.num_layer_list), len(genotypes.PRIMITIVES))
-    alpha[:,0] = 10
+    # alpha = torch.zeros(sum(config.num_layer_list), len(genotypes.PRIMITIVES))
+    # alpha[:,0] = 10
 
     model = FBNet_Infer(alpha, config=config)
 
@@ -298,7 +298,11 @@ def main_worker(gpu, ngpus_per_node, config):
         if (epoch+1) % eval_epoch == 0:
             # tbar.set_description("[Epoch %d/%d][validation...]" % (epoch + 1, config.nepochs))
             with torch.no_grad():
-                acc_bits = infer(epoch, model, train_loader, test_loader, logger, config.num_bits_list, update_bn=False, show_distrib=False)
+                acc_bits_part = infer(epoch, model, train_loader, test_loader, logger, config.num_bits_list, update_bn=False, show_distrib=False)
+                acc_bits = []
+                for acc in acc_bits_part:
+                    acc_new = reduce_tensor(acc, config.world_size)
+                    acc_bits.append(acc_new)
 
             if not config.multiprocessing_distributed or (config.multiprocessing_distributed and config.rank % ngpus_per_node == 0):
                 for i, num_bits in enumerate(config.num_bits_list):
@@ -313,7 +317,15 @@ def main_worker(gpu, ngpus_per_node, config):
 
     if not config.multiprocessing_distributed or (config.multiprocessing_distributed and config.rank % ngpus_per_node == 0):
         save(model, os.path.join(config.save, 'weights.pt'))
-        logging.info('Final Eval - Acc under different bits: ' + str(infer(0, model, train_loader, test_loader, logger, config.num_bits_list, update_bn=config.update_bn, show_distrib=config.show_distrib)))
+
+    # acc_bits_part = infer(0, model, train_loader, test_loader, logger, config.num_bits_list, update_bn=config.update_bn, show_distrib=False)
+    # acc_bits = []
+    # for acc in acc_bits_part:
+    #     acc_new = reduce_tensor(acc, config.world_size)
+    #     acc_bits.append(acc_new)
+
+    # if not config.multiprocessing_distributed or (config.multiprocessing_distributed and config.rank % ngpus_per_node == 0): 
+    #     logging.info('Final Eval - Acc under different bits: ' + str(acc_bits))
 
 
 
@@ -557,6 +569,11 @@ def update_num_bits_list(num_bits_list_orig, num_bits_list_schedule, schedule_fr
 
     return num_bits_list
 
+
+def reduce_tensor(rt, n):
+    dist.all_reduce(rt, op=dist.ReduceOp.SUM)
+    rt /= n
+    return rt
 
 
 def accuracy(output, target, topk=(1,)):

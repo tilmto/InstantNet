@@ -55,7 +55,7 @@ def bn_update(loader, model, num_bits):
         for module in momenta.keys():
             module.momentum = momentum
 
-        model(input_var, num_bits=num_bits)
+        output = model(input_var, num_bits=num_bits)
         n += b
 
     model.apply(lambda module: _set_momenta(module, momenta))
