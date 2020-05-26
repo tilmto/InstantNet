@@ -41,6 +41,7 @@ C.dist_url = 'tcp://eic-2019gpu3.ece.rice.edu:10001'  # url used to set up distr
 C.num_workers = 4  # workers per gpu
 C.batch_size = 256
 
+C.gpu = None
 
 C.dataset = 'imagenet'
 
