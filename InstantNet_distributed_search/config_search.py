@@ -40,6 +40,7 @@ C.batch_size = 192
 C.num_workers = 16
 C.flops_weight = 0
 
+C.gpu = None
 
 C.dataset = 'imagenet'
 
