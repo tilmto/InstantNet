@@ -61,6 +61,9 @@ python train.py
 
 5. Get the searched arch ***ckpt/search/arch.pt***, the search logs ***ckpt/search/logs.txt*** and the training logs ***ckpt/finetune/logs.txt***.
 
+## Update 2020/05/25
+Add distributed search in the directory ***InstantNet_distributed_search***. Please configure distributed settings in the ***config_search.py*** (the same parameters as ***config_train.py*** for distributed training from scratch).
+
 ## First Round Exp 2020/05/21
 Use ***InstantNet_base***: Search under 3 settings of `C.flops_weight`: 1e-7, 1e-9, 1e-11 in ***config_search.py***.
 
