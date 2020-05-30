@@ -35,6 +35,8 @@ class Architect(object):
 
         self.cascad_arch = args.cascad_arch
 
+        self.criteria_arch = args.criteria_arch
+
         print("architect initialized!")
 
 
@@ -57,7 +59,27 @@ class Architect(object):
     def _backward_step_energy(self, input_valid, target_valid, num_bits_list, bit_schedule, loss_scale, temp=1):
         loss_value = [-1 for _ in num_bits_list]
 
-        if bit_schedule == 'sandwich':
+        if self.criteria_arch is not None:
+            if self.criteria_arch == 'min':
+                num_bits = min(num_bits_list)
+            elif self.criteria_arch == 'max':
+                num_bits = max(num_bits_list)
+            else:
+                num_bits = np.random.choice(num_bits_list)
+            
+            logit = self.model(input_valid, num_bits, temp=temp)
+            loss = self.model.module._criterion(logit, target_valid)
+
+            loss = loss * loss_scale[num_bits_list.index(num_bits)]
+
+            loss.backward()
+
+            self.optimizer.step()
+            self.optimizer.zero_grad()
+
+            loss_value[num_bits_list.index(num_bits)] = loss.item()
+
+        elif bit_schedule == 'sandwich':
             num_bits_list_sort = sorted(num_bits_list)
             max_bits = num_bits_list_sort[-1]
             min_bits = num_bits_list_sort[0]
@@ -258,7 +280,27 @@ class Architect(object):
     def _backward_step_flops(self, input_valid, target_valid, num_bits_list, bit_schedule, loss_scale, temp=1):
         loss_value = [-1 for _ in num_bits_list]
 
-        if bit_schedule == 'sandwich':
+        if self.criteria_arch is not None:
+            if self.criteria_arch == 'min':
+                num_bits = min(num_bits_list)
+            elif self.criteria_arch == 'max':
+                num_bits = max(num_bits_list)
+            else:
+                num_bits = np.random.choice(num_bits_list)
+            
+            logit = self.model(input_valid, num_bits, temp=temp)
+            loss = self.model.module._criterion(logit, target_valid)
+
+            loss = loss * loss_scale[num_bits_list.index(num_bits)]
+
+            loss.backward()
+
+            self.optimizer.step()
+            self.optimizer.zero_grad()
+
+            loss_value[num_bits_list.index(num_bits)] = loss.item()
+
+        elif bit_schedule == 'sandwich':
             num_bits_list_sort = sorted(num_bits_list)
             max_bits = num_bits_list_sort[-1]
             min_bits = num_bits_list_sort[0]
