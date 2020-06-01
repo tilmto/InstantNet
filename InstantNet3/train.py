@@ -318,14 +318,14 @@ def main_worker(gpu, ngpus_per_node, config):
     if not config.multiprocessing_distributed or (config.multiprocessing_distributed and config.rank % ngpus_per_node == 0):
         save(model, os.path.join(config.save, 'weights.pt'))
 
-    # acc_bits_part = infer(0, model, train_loader, test_loader, logger, config.num_bits_list, update_bn=config.update_bn, show_distrib=False)
-    # acc_bits = []
-    # for acc in acc_bits_part:
-    #     acc_new = reduce_tensor(acc, config.world_size)
-    #     acc_bits.append(acc_new)
+    acc_bits_part = infer(0, model, train_loader, test_loader, logger, config.num_bits_list, update_bn=config.update_bn, show_distrib=False)
+    acc_bits = []
+    for acc in acc_bits_part:
+        acc_new = reduce_tensor(acc, config.world_size)
+        acc_bits.append(acc_new)
 
-    # if not config.multiprocessing_distributed or (config.multiprocessing_distributed and config.rank % ngpus_per_node == 0): 
-    #     logging.info('Final Eval - Acc under different bits: ' + str(acc_bits))
+    if not config.multiprocessing_distributed or (config.multiprocessing_distributed and config.rank % ngpus_per_node == 0): 
+        logging.info('Final Eval - Acc under different bits: ' + str(acc_bits))
 
 
 
